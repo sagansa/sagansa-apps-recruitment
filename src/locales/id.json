@@ -1,0 +1,127 @@
+{
+  "login": {
+    "title": "Masuk ke Akun",
+    "email": "Alamat Email",
+    "password": "Kata Sandi",
+    "button": "Masuk Sekarang",
+    "no_account": "Belum punya akun?",
+    "register_link": "Daftar di sini",
+    "forgot_password": "Lupa Kata Sandi?"
+  },
+  "register": {
+    "title": "Buat Akun Baru",
+    "name": "Nama Lengkap",
+    "email": "Alamat Email",
+    "password": "Kata Sandi",
+    "confirm_password": "Konfirmasi Kata Sandi",
+    "button": "Daftar Sekarang",
+    "has_account": "Sudah punya akun?",
+    "login_link": "Masuk di sini"
+  },
+  "forgot_password": {
+    "title": "Atur Ulang Sandi",
+    "description": "Masukkan alamat email Anda dan kami akan mengirimkan tautan untuk mengatur ulang kata sandi Anda.",
+    "send_link": "Kirim Tautan Atur Ulang",
+    "back_to_login": "Kembali ke Login"
+  },
+  "reset_password": {
+    "title": "Kata Sandi Baru",
+    "description": "Silakan masukkan kata sandi baru Anda di bawah ini.",
+    "new_password": "Kata Sandi Baru",
+    "confirm_password": "Konfirmasi Kata Sandi Baru",
+    "submit": "Atur Ulang Kata Sandi"
+  },
+  "verification": {
+    "not_verified": "Alamat email Anda belum diverifikasi.",
+    "check_email": "Silakan periksa email Anda untuk tautan verifikasi.",
+    "resend": "Kirim Ulang Email Verifikasi",
+    "resend_loading": "Mengirim...",
+    "resend_success": "Tautan verifikasi telah dikirim!"
+  },
+  "dashboard": {
+    "title": "Profil Rekrutmen",
+    "welcome": "Selamat datang,",
+    "logout": "Keluar",
+    "save": "Simpan Profil",
+    "submit": "Kirim Lamaran",
+    "confirm_submit": "Apakah Anda yakin ingin mengirim lamaran ini? Setelah dikirim, data tidak dapat diubah kembali.",
+    "status": "Status",
+    "status_draft": "Draft",
+    "status_submitted": "Terkirim",
+    "success_update": "Profil berhasil diperbarui!",
+    "success_submit": "Lamaran berhasil dikirim!",
+    "success_add_exp": "Pengalaman kerja berhasil ditambahkan!",
+    "success_update_exp": "Pengalaman kerja berhasil diperbarui!",
+    "success_delete_exp": "Pengalaman kerja berhasil dihapus!",
+    "get_location": "Ambil Lokasi",
+    "sections": {
+        "documents": "Dokumen Identitas",
+        "identity": "Identitas & Informasi Dasar",
+        "education_family": "Pendidikan & Keluarga",
+        "location": "Lokasi Rumah",
+        "experience_level": "Tingkat Pengalaman",
+        "history": "Riwayat Kerja"
+    },
+    "fields": {
+        "nickname": "Nama Panggilan",
+        "phone": "Telepon",
+        "nik": "No KTP (NIK)",
+        "gender": "Jenis Kelamin",
+        "male": "Laki-laki",
+        "female": "Perempuan",
+        "birth_place": "Tempat Lahir",
+        "birth_date": "Tanggal Lahir",
+        "address": "Alamat Lengkap",
+        "home_location": "Koordinat Lokasi Rumah",
+        "home_location_help": "Cara ambil koordinat: Buka Google Maps, klik kanan pada lokasi rumah, lalu klik angka koordinat yang muncul untuk menyalinnya.",
+        "is_experienced": "Berpengalaman",
+        "is_fresh": "Lulusan Baru / Tanpa Pengalaman",
+        "religion": "Agama",
+        "religion_options": {
+            "islam": "Islam",
+            "kristen": "Kristen",
+            "katolik": "Katolik",
+            "hindu": "Hindu",
+            "buddha": "Buddha",
+            "khonghucu": "Khonghucu"
+        },
+        "marital_status": "Status Pernikahan",
+        "marital_options": {
+            "single": "Single",
+            "married": "Menikah",
+            "divorce": "Cerai"
+        },
+        "sim": "Surat Izin Mengemudi (SIM)",
+        "sim_options": {
+            "none": "Tidak Ada",
+            "sim_a": "SIM A",
+            "sim_c": "SIM C",
+            "sim_ac": "SIM A & C"
+        },
+        "education_level": "Tingkat Pendidikan",
+        "education_major": "Jurusan / Bidang Studi",
+        "father_name": "Nama Bapak",
+        "mother_name": "Nama Ibu",
+        "children_count": "Jumlah Anak",
+        "emergency_name": "Kontak Darurat (Nama)",
+        "emergency_phone": "Kontak Darurat (Telepon)"
+    },
+    "experience": {
+        "add": "Tambah Pengalaman Kerja",
+        "add_new": "Tambah Baru",
+        "edit": "Edit Pengalaman",
+        "view": "Lihat Pengalaman",
+        "empty": "Belum ada pengalaman.",
+        "company": "Nama Perusahaan",
+        "position": "Jabatan",
+        "salary": "Gaji",
+        "supervisor": "Nama Atasan",
+        "supervisor_phone": "Telepon Atasan",
+        "contactable": "Bersedia dihubungi",
+        "start": "Tanggal Mulai",
+        "end": "Tanggal Selesai",
+        "description": "Deskripsi Pekerjaan",
+        "save": "Simpan Perubahan"
+    }
+  }
+}
