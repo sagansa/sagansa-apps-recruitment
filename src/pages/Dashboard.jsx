@@ -136,8 +136,8 @@ const Dashboard = ({ setAuth }) => {
                 setDetails(prev => ({ ...prev, ...cleanDetails }));
                 
                 setPreviews({
-                    ktp_image: profileRes.data.details.ktp_image ? `http://localhost:8000/storage/${profileRes.data.details.ktp_image}` : null,
-                    selfie_image: profileRes.data.details.selfie_image ? `http://localhost:8000/storage/${profileRes.data.details.selfie_image}` : null,
+                    ktp_image: profileRes.data.details.ktp_image ? `https://sagansa.id/storage/${profileRes.data.details.ktp_image}` : null,
+                    selfie_image: profileRes.data.details.selfie_image ? `https://sagansa.id/storage/${profileRes.data.details.selfie_image}` : null,
                 });
             }
             setExperiences(profileRes.data.experiences);
@@ -247,8 +247,8 @@ const Dashboard = ({ setAuth }) => {
                 setFiles({ ktp_image: null, selfie_image: null });
                 if (res.data.details) {
                     setPreviews({
-                        ktp_image: res.data.details.ktp_image ? `http://localhost:8000/storage/${res.data.details.ktp_image}` : previews.ktp_image,
-                        selfie_image: res.data.details.selfie_image ? `http://localhost:8000/storage/${res.data.details.selfie_image}` : previews.selfie_image,
+                        ktp_image: res.data.details.ktp_image ? `https://sagansa.id/storage/${res.data.details.ktp_image}` : previews.ktp_image,
+                        selfie_image: res.data.details.selfie_image ? `https://sagansa.id/storage/${res.data.details.selfie_image}` : previews.selfie_image,
                     });
                 }
             }

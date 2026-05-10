@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://api-web.sagansa.id',
+    baseURL: 'https://api-web.sagansa.id/api',
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
