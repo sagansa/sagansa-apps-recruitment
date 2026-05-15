@@ -415,7 +415,7 @@ const Dashboard = ({ setAuth }) => {
             onConfirm: async () => {
                 setIsSubmitting(true);
                 try {
-                    await api.post('/logout');
+                    await api.post('/auth/logout');
                 } catch (err) {}
                 localStorage.removeItem('token');
                 setAuth(false);
