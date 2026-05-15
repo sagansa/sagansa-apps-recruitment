@@ -362,6 +362,35 @@ const Dashboard = ({ setAuth }) => {
             alert(i18n.language === 'id' ? 'Harap verifikasi email Anda terlebih dahulu.' : 'Please verify your email first.');
             return;
         }
+
+        // Validation for required fields and images
+        const requiredFields = {
+            nik: i18n.language === 'id' ? 'NIK' : 'NIK',
+            nickname: i18n.language === 'id' ? 'Nama Panggilan' : 'Nickname',
+            phone: i18n.language === 'id' ? 'Nomor HP' : 'Phone Number',
+            address: i18n.language === 'id' ? 'Alamat' : 'Address',
+            birth_place: i18n.language === 'id' ? 'Tempat Lahir' : 'Birth Place',
+            birth_date: i18n.language === 'id' ? 'Tanggal Lahir' : 'Birth Date',
+        };
+
+        const missingFields = [];
+        Object.entries(requiredFields).forEach(([key, label]) => {
+            if (!details[key] || details[key].toString().trim() === '') {
+                missingFields.push(label);
+            }
+        });
+
+        if (!previews.ktp_image) missingFields.push(i18n.language === 'id' ? 'Foto KTP' : 'KTP Image');
+        if (!previews.selfie_image) missingFields.push(i18n.language === 'id' ? 'Foto Selfie' : 'Selfie Image');
+
+        if (missingFields.length > 0) {
+            const msg = i18n.language === 'id' 
+                ? `Mohon lengkapi data berikut sebelum mengirim:\n- ${missingFields.join('\n- ')}`
+                : `Please complete the following data before submitting:\n- ${missingFields.join('\n- ')}`;
+            alert(msg);
+            return;
+        }
+
         openConfirmModal({
             title: t('dashboard.submit'),
             message: t('dashboard.confirm_submit'),
