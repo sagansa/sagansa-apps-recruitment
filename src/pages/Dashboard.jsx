@@ -363,7 +363,7 @@ const Dashboard = ({ setAuth }) => {
             return;
         }
 
-        // Validation for required fields and images
+        // Validation for ALL required profile fields and images
         const requiredFields = {
             nik: i18n.language === 'id' ? 'NIK' : 'NIK',
             nickname: i18n.language === 'id' ? 'Nama Panggilan' : 'Nickname',
@@ -371,6 +371,15 @@ const Dashboard = ({ setAuth }) => {
             address: i18n.language === 'id' ? 'Alamat' : 'Address',
             birth_place: i18n.language === 'id' ? 'Tempat Lahir' : 'Birth Place',
             birth_date: i18n.language === 'id' ? 'Tanggal Lahir' : 'Birth Date',
+            religion: i18n.language === 'id' ? 'Agama' : 'Religion',
+            education_level: i18n.language === 'id' ? 'Tingkat Pendidikan' : 'Education Level',
+            education_major: i18n.language === 'id' ? 'Jurusan' : 'Major',
+            father_name: i18n.language === 'id' ? 'Nama Bapak' : "Father's Name",
+            mother_name: i18n.language === 'id' ? 'Nama Ibu' : "Mother's Name",
+            marital_status: i18n.language === 'id' ? 'Status Pernikahan' : 'Marital Status',
+            home_location: i18n.language === 'id' ? 'Koordinat Lokasi Rumah' : 'Home Location',
+            emergency_name: i18n.language === 'id' ? 'Kontak Darurat (Nama)' : 'Emergency Contact (Name)',
+            emergency_phone: i18n.language === 'id' ? 'Kontak Darurat (Telepon)' : 'Emergency Contact (Phone)',
         };
 
         const missingFields = [];
@@ -380,8 +389,21 @@ const Dashboard = ({ setAuth }) => {
             }
         });
 
+        // children_count wajib hanya jika marital_status != single
+        if (details.marital_status && details.marital_status !== 'single') {
+            const childCount = parseInt(details.children_count);
+            if (isNaN(childCount) || childCount < 0) {
+                missingFields.push(i18n.language === 'id' ? 'Jumlah Anak' : 'Number of Children');
+            }
+        }
+
         if (!previews.ktp_image) missingFields.push(i18n.language === 'id' ? 'Foto KTP' : 'KTP Image');
         if (!previews.selfie_image) missingFields.push(i18n.language === 'id' ? 'Foto Selfie' : 'Selfie Image');
+
+        // Jika berpengalaman, minimal wajib ada 1 riwayat kerja
+        if (details.is_experienced && experiences.length === 0) {
+            missingFields.push(i18n.language === 'id' ? 'Minimal 1 Pengalaman Kerja' : 'At least 1 Work Experience');
+        }
 
         if (missingFields.length > 0) {
             const msg = i18n.language === 'id' 
@@ -615,7 +637,7 @@ const Dashboard = ({ setAuth }) => {
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                     <div className="space-y-4">
-                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold block">KTP Image</label>
+                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold block">KTP Image <span className="text-red-500">*</span></label>
                                         <div className="relative group">
                                             <div className="w-full h-48 bg-white/5 border-2 border-dashed border-white/10 rounded-2xl flex items-center justify-center overflow-hidden transition-all group-hover:border-gold/50 relative">
                                                 {previews.ktp_image ? (
@@ -640,7 +662,7 @@ const Dashboard = ({ setAuth }) => {
                                         </div>
                                     </div>
                                     <div className="space-y-4">
-                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold block">Selfie Image</label>
+                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold block">Selfie Image <span className="text-red-500">*</span></label>
                                         <div className="relative group">
                                             <div className="w-full h-48 bg-white/5 border-2 border-dashed border-white/10 rounded-2xl flex items-center justify-center overflow-hidden transition-all group-hover:border-gold/50 relative">
                                                 {previews.selfie_image ? (
@@ -677,19 +699,19 @@ const Dashboard = ({ setAuth }) => {
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.nik')}</label>
+                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.nik')} <span className="text-red-500">*</span></label>
                                         <input onBlur={handleBlur} disabled={isSubmitted} className="input-field" value={details.nik} onChange={e => setDetails({...details, nik: e.target.value})} placeholder="321..." />
                                     </div>
                                     <div>
-                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.nickname')}</label>
+                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.nickname')} <span className="text-red-500">*</span></label>
                                         <input onBlur={handleBlur} disabled={isSubmitted} className="input-field" value={details.nickname} onChange={e => setDetails({...details, nickname: e.target.value})} placeholder="Bobby" />
                                     </div>
                                     <div>
-                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.phone')}</label>
+                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.phone')} <span className="text-red-500">*</span></label>
                                         <input onBlur={handleBlur} disabled={isSubmitted} className="input-field" value={details.phone} onChange={e => setDetails({...details, phone: e.target.value})} placeholder="+62..." />
                                     </div>
                                     <div>
-                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.religion')}</label>
+                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.religion')} <span className="text-red-500">*</span></label>
                                         <select onBlur={handleBlur} onChange={e => { setDetails({...details, religion: e.target.value}); autoSave({...details, religion: e.target.value}); }} disabled={isSubmitted} className="input-field" value={details.religion}>
                                             <option value="">-- Select --</option>
                                             <option value="islam">{t('dashboard.fields.religion_options.islam')}</option>
@@ -718,11 +740,11 @@ const Dashboard = ({ setAuth }) => {
                                     </div>
                                     <div className="md:col-span-2 grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.birth_place')}</label>
+                                            <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.birth_place')} <span className="text-red-500">*</span></label>
                                             <input onBlur={handleBlur} disabled={isSubmitted} className="input-field" value={details.birth_place} onChange={e => setDetails({...details, birth_place: e.target.value})} />
                                         </div>
                                         <div>
-                                            <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.birth_date')}</label>
+                                            <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.birth_date')} <span className="text-red-500">*</span></label>
                                             <input onBlur={handleBlur} disabled={isSubmitted} type="date" className="input-field" value={details.birth_date} onChange={e => setDetails({...details, birth_date: e.target.value})} />
                                         </div>
                                     </div>
@@ -739,23 +761,23 @@ const Dashboard = ({ setAuth }) => {
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.education_level')}</label>
+                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.education_level')} <span className="text-red-500">*</span></label>
                                         <input onBlur={handleBlur} disabled={isSubmitted} className="input-field" value={details.education_level} onChange={e => setDetails({...details, education_level: e.target.value})} placeholder="S1 / SMA" />
                                     </div>
                                     <div>
-                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.education_major')}</label>
+                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.education_major')} <span className="text-red-500">*</span></label>
                                         <input onBlur={handleBlur} disabled={isSubmitted} className="input-field" value={details.education_major} onChange={e => setDetails({...details, education_major: e.target.value})} placeholder="Computer Science" />
                                     </div>
                                     <div>
-                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.father_name')}</label>
+                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.father_name')} <span className="text-red-500">*</span></label>
                                         <input onBlur={handleBlur} disabled={isSubmitted} className="input-field" value={details.father_name} onChange={e => setDetails({...details, father_name: e.target.value})} />
                                     </div>
                                     <div>
-                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.mother_name')}</label>
+                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.mother_name')} <span className="text-red-500">*</span></label>
                                         <input onBlur={handleBlur} disabled={isSubmitted} className="input-field" value={details.mother_name} onChange={e => setDetails({...details, mother_name: e.target.value})} />
                                     </div>
                                     <div>
-                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.marital_status')}</label>
+                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.marital_status')} <span className="text-red-500">*</span></label>
                                         <select onBlur={handleBlur} onChange={e => { 
                                             const val = e.target.value;
                                             const newDetails = {
@@ -791,12 +813,12 @@ const Dashboard = ({ setAuth }) => {
                                 </div>
                                 <div className="space-y-6">
                                     <div>
-                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.address')}</label>
+                                        <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.fields.address')} <span className="text-red-500">*</span></label>
                                         <textarea onBlur={handleBlur} disabled={isSubmitted} className="input-field h-24 pt-2" value={details.address} onChange={e => setDetails({...details, address: e.target.value})} />
                                     </div>
                                     <div>
                                         <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block flex items-center justify-between">
-                                            {t('dashboard.fields.home_location')}
+                                            {t('dashboard.fields.home_location')} <span className="text-red-500">*</span>
                                             {!isSubmitted && (
                                                 <button 
                                                     type="button" 
@@ -815,11 +837,11 @@ const Dashboard = ({ setAuth }) => {
                                     </div>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-white/5">
                                         <div>
-                                            <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block text-orange-400">{t('dashboard.fields.emergency_name')}</label>
+                                            <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block text-orange-400">{t('dashboard.fields.emergency_name')} <span className="text-red-500">*</span></label>
                                             <input onBlur={handleBlur} disabled={isSubmitted} className="input-field" value={details.emergency_name} onChange={e => setDetails({...details, emergency_name: e.target.value})} />
                                         </div>
                                         <div>
-                                            <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block text-orange-400">{t('dashboard.fields.emergency_phone')}</label>
+                                            <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block text-orange-400">{t('dashboard.fields.emergency_phone')} <span className="text-red-500">*</span></label>
                                             <div className="relative">
                                                 <AlertCircle className="absolute left-3 top-2.5 w-4 h-4 text-orange-500" />
                                                 <input onBlur={handleBlur} disabled={isSubmitted} className="input-field pl-10 border-orange-500/20" value={details.emergency_phone} onChange={e => setDetails({...details, emergency_phone: e.target.value})} />
@@ -957,32 +979,32 @@ const Dashboard = ({ setAuth }) => {
                         <form onSubmit={handleSaveExperience} className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.experience.company')}</label>
+                                    <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.experience.company')} <span className="text-red-500">*</span></label>
                                     <input className="input-field" required disabled={modalMode === 'view'} value={expForm.company_name} onChange={e => setExpForm({...expForm, company_name: e.target.value})} />
                                 </div>
                                 <div>
-                                    <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.experience.position')}</label>
+                                    <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.experience.position')} <span className="text-red-500">*</span></label>
                                     <input className="input-field" required disabled={modalMode === 'view'} value={expForm.position} onChange={e => setExpForm({...expForm, position: e.target.value})} />
                                 </div>
                                 <div>
-                                    <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.experience.salary')}</label>
+                                    <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.experience.salary')} <span className="text-red-500">*</span></label>
                                     <div className="relative">
                                         <DollarSign className="absolute left-3 top-2.5 w-4 h-4 text-slate-500" />
-                                        <input type="number" className="input-field pl-10" disabled={modalMode === 'view'} value={expForm.salary} onChange={e => setExpForm({...expForm, salary: e.target.value})} />
+                                        <input type="number" className="input-field pl-10" required disabled={modalMode === 'view'} value={expForm.salary} onChange={e => setExpForm({...expForm, salary: e.target.value})} />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.experience.supervisor')}</label>
+                                    <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.experience.supervisor')} <span className="text-red-500">*</span></label>
                                     <div className="relative">
                                         <UserCheck className="absolute left-3 top-2.5 w-4 h-4 text-slate-500" />
-                                        <input className="input-field pl-10" disabled={modalMode === 'view'} value={expForm.supervisor_name} onChange={e => setExpForm({...expForm, supervisor_name: e.target.value})} />
+                                        <input className="input-field pl-10" required disabled={modalMode === 'view'} value={expForm.supervisor_name} onChange={e => setExpForm({...expForm, supervisor_name: e.target.value})} />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.experience.supervisor_phone')}</label>
+                                    <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.experience.supervisor_phone')} <span className="text-red-500">*</span></label>
                                     <div className="relative">
                                         <Phone className="absolute left-3 top-2.5 w-4 h-4 text-slate-500" />
-                                        <input className="input-field pl-10" disabled={modalMode === 'view'} value={expForm.supervisor_phone} onChange={e => setExpForm({...expForm, supervisor_phone: e.target.value})} />
+                                        <input className="input-field pl-10" required disabled={modalMode === 'view'} value={expForm.supervisor_phone} onChange={e => setExpForm({...expForm, supervisor_phone: e.target.value})} />
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-3 pt-6">
@@ -990,17 +1012,17 @@ const Dashboard = ({ setAuth }) => {
                                     <label className="text-sm text-slate-300">{t('dashboard.experience.contactable')}</label>
                                 </div>
                                 <div>
-                                    <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.experience.start')}</label>
+                                    <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.experience.start')} <span className="text-red-500">*</span></label>
                                     <input type="date" className="input-field" required disabled={modalMode === 'view'} value={expForm.start_date} onChange={e => setExpForm({...expForm, start_date: e.target.value})} />
                                 </div>
                                 <div>
-                                    <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.experience.end')}</label>
-                                    <input type="date" className="input-field" disabled={modalMode === 'view'} value={expForm.end_date} onChange={e => setExpForm({...expForm, end_date: e.target.value})} />
+                                    <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.experience.end')} <span className="text-red-500">*</span></label>
+                                    <input type="date" className="input-field" required disabled={modalMode === 'view'} value={expForm.end_date} onChange={e => setExpForm({...expForm, end_date: e.target.value})} />
                                 </div>
                             </div>
                             <div>
-                                <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.experience.description')}</label>
-                                <textarea className="input-field h-32 pt-2" disabled={modalMode === 'view'} value={expForm.description} onChange={e => setExpForm({...expForm, description: e.target.value})} />
+                                <label className="text-xs uppercase tracking-wider text-slate-500 font-bold mb-1 block">{t('dashboard.experience.description')} <span className="text-red-500">*</span></label>
+                                <textarea className="input-field h-32 pt-2" required disabled={modalMode === 'view'} value={expForm.description} onChange={e => setExpForm({...expForm, description: e.target.value})} />
                             </div>
 
                             {modalMode !== 'view' && (
