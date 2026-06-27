@@ -918,12 +918,22 @@ const Dashboard = ({ setAuth }) => {
                                 <h3 className="text-lg font-semibold text-slate-400 flex items-center gap-2 px-2">
                                     <Clock className="w-5 h-5" />
                                     {t('dashboard.sections.history')}
+                                    <span className="text-red-500 text-sm">*</span>
+                                    {experiences.length === 0 && (
+                                        <span className="ml-auto text-[10px] uppercase tracking-widest font-bold text-red-400 bg-red-500/10 border border-red-500/20 px-2 py-1 rounded-full">
+                                            {i18n.language === 'id' ? 'Wajib Diisi' : 'Required'}
+                                        </span>
+                                    )}
                                 </h3>
                                 
                                 {experiences.length === 0 ? (
-                                    <div className="glass-card p-12 flex flex-col items-center justify-center text-slate-500 text-center">
-                                        <Briefcase className="w-12 h-12 mb-4 opacity-10" />
-                                        <p>{t('dashboard.experience.empty')}</p>
+                                    <div className="glass-card p-12 flex flex-col items-center justify-center text-center border-red-500/20">
+                                        <Briefcase className="w-12 h-12 mb-4 text-red-500/40" />
+                                        <p className="text-red-400 font-bold">
+                                            {i18n.language === 'id'
+                                                ? 'Anda memilih Berpengalaman. Minimal 1 pengalaman kerja wajib ditambahkan.'
+                                                : 'You selected Experienced. At least 1 work experience is required.'}
+                                        </p>
                                     </div>
                                 ) : (
                                     experiences.map(exp => (
